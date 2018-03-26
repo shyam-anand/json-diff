@@ -19,10 +19,14 @@ def diff(diff, data):
 			i = i + 1
 	return json.dumps(diff_list)
 
-def write_diff_json(fname_1, fname_2, diff_json):
+def write_diff_json(fname_1, fname_2, dct, write_empty_json = False):
+	nd = not dct
+	print(fname_1, fname_2, "not dct =", nd, "write_empty_json =", write_empty_json)
+	if write_empty_json == False and not dct:
+		return
 	fname = fname_1[0:fname_1.find(".json")] + "#" + fname_2[0:fname_2.find(".json")] + ".json"
 	f = open('diff/' + fname, "w")
-	f.write(diff_json)
+	f.write(dct)
 	f.close()
 
 def json_parse(filename):
@@ -58,12 +62,3 @@ for f in files:
 		print(f, "-", g, "=")
 		write_diff_json(f, g, diff(list_diff(lists[f], lists[g]), jsons[f]['data']))
 		write_diff_json(g, f, diff(list_diff(lists[g], lists[f]), jsons[g]['data']))
-
-
-
-
-
-
-
-
-
